@@ -84,8 +84,6 @@ void benchmark_matmul(int bits, int n, int m, int k, int iters){ //(nxm) X (mxk)
     auto end = std::chrono::high_resolution_clock::now();
     auto time_taken = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); 
 
-    std::cout << Mat3[0][0].get_str(10) << "\n"; 
-
     std::cout << "[*] " << bits << " bits MATMUL("
               << n << "x" << m << "x" << k << ") "
               << iters << " iters : " << time_taken.count() << "ms\n"; 
@@ -107,10 +105,9 @@ int main() {
     for(int i = 0 ; i < 5; i++){
         benchmark_multiplication(bit_lengths[i], 100000);
     }
-
-    // for(int i = 0 ; i < 5; i++){
-    benchmark_matmul(512, 16, 16, 16, 10000);
-    // }
+    for(int i = 16; i <= 512; i*=2){
+        benchmark_matmul(512, i, i, i, 10);
+    }
 
     return 0;
 }
